@@ -1,0 +1,54 @@
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Logs
+*.log
+logs/
+log/
+LOG/
+*.md
+
+# Virtual environment
+venv/
+env/
+env.bak/
+*.env
+
+# Dependencies
+dist/
+build/
+*.egg-info/
+.eggs/
+.cache/
+.tox/
+*.egg
+
+# Data and models
+*.csv
+*.tsv
+*.json
+*.h5
+*.pkl
+*.npz
+*.npy
+*.joblib
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE files
+.vscode/
+.idea/
+*.pydevproject
+*.project
+
+# Other
+.DS_Store
+*.swp
+*.streamlit 
+
+# folder 
+data/
