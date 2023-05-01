@@ -1,0 +1,13 @@
+# ML
+# --------------------
+# Verify your cuda version to make sure the right torch gets installed
+# You can pass --extra-index-url https://download.pytorch.org/whl/cu116 (or whatever your version is)
+openai-whisper # https://github.com/openai/whisper
+# Backend
+# --------------------
+pytube # https://github.com/pytube/pytube
+SQLAlchemy # https://github.com/sqlalchemy/sqlalchemy
+
+# Frontend
+# --------------------
+streamlit # https://github.com/streamlit/streamlit
