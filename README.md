@@ -1,12 +1,16 @@
 # Streamlit UI for OpenAI's Whisper, GPT, chatGPT, babyagi and more
 
-This is a simple [Streamlit UI](https://streamlit.io/) for [OpenAI's Whisper speech-to-text model](https://openai.com/blog/whisper/).
-It let's you download and transcribe media from YouTube videos, playlists, or local files.
-You can then browse, filter, and search through your saved audio files.
+This is a simple [Streamlit UI](https://streamlit.io/) for:
+
+* [OpenAI's Whisper speech-to-text model](https://openai.com/blog/whisper/). It let's you download and transcribe media from YouTube videos, playlists, or local files. You can then browse, filter, and search through your saved audio files.
+
+* [OpenAI's GPT-3](https://openai.com/blog/openai-api/). It let's you generate text from a prompt using the GPT-3 API.
+
+* [babyagi](https://github.com/yoheinakajima/babyagi). It let's you create, prioritize, and execute tasks using the babyagi task management system.
 
 ## Setup
 
-This was built & tested on Python 3.11 but should also work on Python 3.9+ as with the original [Whisper repo](https://github.com/openai/whisper)).
+This was built & tested on Python 3.9 but should also work on Python 3.9+ as with the original [Whisper repo](https://github.com/openai/whisper)).
 You'll need to install `ffmpeg` on your system. Then, install the requirements with `pip`.
 
 ```bash
@@ -35,6 +39,7 @@ If want to use OpenAI chatGPT api:
 1. Create a folder ```env```
 2. Create a file ```local.toml```
 3. Add api key to ```local.toml``` in```env``` folder
+4. Or key in api key in streamlit UI
 
 Once you're set up, you can run the app with:
 
