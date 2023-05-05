@@ -9,7 +9,7 @@ You can then browse, filter, and search through your saved audio files.
 This was built & tested on Python 3.11 but should also work on Python 3.9+ as with the original [Whisper repo](https://github.com/openai/whisper)).
 You'll need to install `ffmpeg` on your system. Then, install the requirements with `pip`.
 
-```
+```bash
 # on Ubuntu or Debian
 sudo apt update && sudo apt install ffmpeg
 
@@ -31,15 +31,15 @@ pip install -r requirements.txt
 ## Usage
 
 If want to use OpenAI chatGPT api:
+
 1. Create a folder ```env```
-2. Create a file ```local.toml``` 
-2. Add api key to ```local.toml``` in```env``` folder
+2. Create a file ```local.toml```
+3. Add api key to ```local.toml``` in```env``` folder
 
 Once you're set up, you can run the app with:
 
-```
+```bash
 streamlit run app/main.py
 ```
 
 This will open a new tab in your browser with the app. You can then select a YouTube URL or local file & click "Run Whisper" to run the model on the selected media.
-
