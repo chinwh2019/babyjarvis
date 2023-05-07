@@ -4,14 +4,15 @@
 import streamlit as st
 import openai
 import streamlit.components.v1 as components
-from utils import get_openai_api_key
+from utils import get_openai_api_key, get_api_key_from_config
 
-openai.api_key = get_openai_api_key()
+# openai.api_key = get_openai_api_key()
+openai.api_key = get_api_key_from_config()
 
 
 def generate_text(prompt: str) -> str:
     if "messages" not in st.session_state:
-        st.session_state["messages"] = [{"role": "system", "content": "あなたは賢いAIです。"}]
+        st.session_state["messages"] = [{"role": "system", "content": "You are a friendly and help AI assistant."}]
 
     messages = st.session_state["messages"]
     messages.append({"role": "user", "content": prompt})
@@ -43,7 +44,7 @@ def generate_text(prompt: str) -> str:
 
 def main():
     # scroll_to_bottom()
-    st.title("🤖Personal Assistant")
+    st.title("🤖 A.I. Personal Assistant")
 
     if "prompts" not in st.session_state:
         st.session_state["prompts"] = []
@@ -66,7 +67,7 @@ def main():
         contents.append(content)
         st.session_state["prompt"] = ""
 
-    st.button("Generate Text", on_click=call_generate_text)
+    st.button("SEND", on_click=call_generate_text)
 
 
 if __name__ == "__main__":
