@@ -364,16 +364,8 @@ class OpenAIApp:
                     response = self.completion_api.get_completion(prompt_2)
                     st.subheader("Response")
                     st.markdown(f'<strong>{response}</strong>', unsafe_allow_html=True)
-
-
-
-
-
-        
-
-            
-
-
+    
+    
     def main(self):
         st.title("Prompt Engineering - Essential Tactics") 
 
