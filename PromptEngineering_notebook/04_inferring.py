@@ -79,7 +79,7 @@ response = get_completion(prompt)
 print(response)
 
 # %%
-# Extract product and company name from customer reivews 
+# Extract product and company name from customer reviews 
 
 prompt = f"""
 Identify the following items from the review text:
