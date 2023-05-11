@@ -18,10 +18,10 @@ from pydantic import BaseModel, Field
 from langchain.chains.base import Chain
 from langchain.vectorstores import FAISS
 from langchain.docstore import InMemoryDocstore
-from config import get_page_config
+from utils import get_openai_api_key, get_api_key_from_config
 
 # st.set_page_config(**get_page_config())
-openai.api_key = get_openai_api_key()
+openai.api_key = get_api_key_from_config()
 
 
 class TaskCreationChain(LLMChain):
