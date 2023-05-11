@@ -120,10 +120,6 @@ response = get_completion(prompt)
 print(response)
 
 # %%
-from IPython.display import display, Markdown, Latex, HTML, JSON
-
-display(HTML(response))
-# %%
 # Spellcheck/ Grammar check 
 # Here are some examples of common grammar and spelling problems and the LLM's response.
 # To signal to the LLM that you want it to proofread your text, you instruct the model to 'proofread' or 'proofread and correct'. 
