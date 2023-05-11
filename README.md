@@ -4,9 +4,11 @@ This is a simple [Streamlit UI](https://streamlit.io/) for:
 
 * [OpenAI's Whisper speech-to-text model](https://openai.com/blog/whisper/). It let's you download and transcribe media from videos, playlists, or local files. You can then browse, filter, and search through your saved audio files.
 
-* [OpenAI's GPT-3](https://openai.com/blog/openai-api/). It let's you generate text from a prompt using the GPT-3 API.
+* [OpenAI's GPT-3.5](https://openai.com/blog/openai-api/). It let's you generate text from a prompt using the GPT-3.5 API.
 
 * [babyagi](https://github.com/yoheinakajima/babyagi). It let's you create, prioritize, and execute tasks using the babyagi task management system.
+
+* Prompt Engineering. It contains essential prompt tactics for communicating with GPT-3.5.
 
 ## Setup
 
