@@ -8,7 +8,7 @@ This is a simple [Streamlit UI](https://streamlit.io/) for:
 
 * [babyagi](https://github.com/yoheinakajima/babyagi). It let's you create, prioritize, and execute tasks using the babyagi task management system.
 
-* Prompt Engineering. It contains essential prompt tactics for communicating with GPT-3.5.
+* Prompt Engineering. It contains essential prompt tactics from Andrew Ng's OpenAI course for communicating with GPT-3.5.
 
 ## Setup
 
