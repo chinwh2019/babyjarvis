@@ -40,6 +40,10 @@ def main():
     else:
         st.title("One-stop NLP Home Page")
 
+    st.image("assets/survey-gif-test.gif", use_column_width=True)
+    # add a caption to the image 
+    st.caption("Credit to [arxiv.org/abs/2304.13712v2](https://arxiv.org/abs/2304.13712v2)")
+
     # Get the list of subpages from the 'pages' folder
     # subpages = [f[:-3] for f in os.listdir("pages") if f.endswith(".py")]
     subpages = [f[:-3] for f in os.listdir("descriptions") if f.endswith(".md")]
