@@ -20,7 +20,7 @@ While transformers can process all embeddings at once, making them faster than t
 
 Position embeddings use wave frequencies to capture position information, which helps overcome the limitation of distorting embedding information or varying position embeddings based on sentence length. The original transformer paper introduced an approach that uses a combination of sine and cosine curves to generate these position embeddings.
 
-To wrap up, the input words get converted into word embeddings by the embedding layer. We then add position information to these embeddings to get position-aware word embeddings. 
+To wrap up, the input words get converted into word embeddings by the embedding layer. We then add position information to these embeddings to get position-aware word embeddings.
 
 ## Multi-Head Attention: A Comprehensive Breakdown
 
