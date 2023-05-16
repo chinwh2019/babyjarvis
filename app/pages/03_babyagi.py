@@ -19,6 +19,8 @@ from langchain.chains.base import Chain
 from langchain.vectorstores import FAISS
 from langchain.docstore import InMemoryDocstore
 from utils import get_openai_api_key, get_api_key_from_config
+from PIL import Image
+
 
 # st.set_page_config(**get_page_config())
 openai.api_key = get_api_key_from_config()
@@ -299,6 +301,11 @@ class BabyAGI(Chain, BaseModel):
 
 def main():
     st.title("BabyAGI")
+
+    image = Image.open("img/babyagi.png")
+
+    # Display the image
+    st.image(image, caption="Babyagi flow", use_column_width=True)
 
    
     with st.sidebar:

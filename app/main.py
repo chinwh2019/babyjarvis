@@ -41,7 +41,8 @@ def main():
         st.title("One-stop NLP Home Page")
 
     # Get the list of subpages from the 'pages' folder
-    subpages = [f[:-3] for f in os.listdir("pages") if f.endswith(".py")]
+    # subpages = [f[:-3] for f in os.listdir("pages") if f.endswith(".py")]
+    subpages = [f[:-3] for f in os.listdir("descriptions") if f.endswith(".md")]
 
     # Create a sidebar with a title and a selectbox to choose subpages
     st.sidebar.title("Description of Subpages")
