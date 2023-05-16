@@ -53,9 +53,6 @@ def main():
     st.header("Unmasking Transformers: A Visual Guide to NLP’s Powerhouse")
     st.image("assets/transformer.gif", use_column_width=True)
 
-    # Add a divider to separate the sidebar title and the selectbox
-    st.sidebar.markdown("---")
-
     # Get the list of subpages from the 'pages' folder
     # subpages = [f[:-3] for f in os.listdir("pages") if f.endswith(".py")]
     subpages = [f[:-3] for f in os.listdir("descriptions") if f.endswith(".md")]
