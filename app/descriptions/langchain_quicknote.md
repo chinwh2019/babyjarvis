@@ -1,4 +1,8 @@
-# Blog Post: Understanding LangChain, LangChain Agent, and LangChain Memory
+<<<<<<< HEAD
+# Understanding LangChain, LangChain Agent, and LangChain Memory
+=======
+# Understanding LangChain, LangChain Agent, and LangChain Memory
+>>>>>>> dev-mac
 
 ## Introduction to LangChain
 
