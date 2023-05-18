@@ -18,7 +18,7 @@ from pydantic import BaseModel, Field
 from langchain.chains.base import Chain
 from langchain.vectorstores import FAISS
 from langchain.docstore import InMemoryDocstore
-from utils import get_openai_api_key, get_api_key_from_config
+from utils import get_api_key_from_config
 from PIL import Image
 
 

@@ -23,13 +23,10 @@ def main():
     st.set_page_config(page_title="All-in-One Portal for NLP Mastery", page_icon=":memo:")
 
     # Display the main title with an image icon
-    icon_path = os.path.join("img", "logo.png")
-    icon_base64 = None
-
-    if os.path.exists(icon_path):
+    try:
+        icon_path = os.path.join("img", "logo.png")
         with open(icon_path, "rb") as img_file:
             icon_base64 = base64.b64encode(img_file.read()).decode("utf-8")
-
         custom_title = f"""
         <div style="display: flex; align-items: center; font-size: 2em; font-weight: bold;">
             <img src="data:img/png;base64,{icon_base64}" style="width: 50px; margin-right: 10px;"/>
@@ -37,21 +34,31 @@ def main():
         </div>
         """
         st.markdown(custom_title, unsafe_allow_html=True)
-    else:
+    except FileNotFoundError:
         st.title("All-in-One Portal for NLP Mastery")
 
     # Display the main description
-    st.image("assets/survey-gif-test.gif", use_column_width=True)
-    # add a caption to the image 
-    st.caption("Credit to [arxiv.org/abs/2304.13712v2](https://arxiv.org/abs/2304.13712v2)")
+    try:
+        st.image("assets/survey-gif-test.gif", use_column_width=True)
+        st.caption("Credit to [arxiv.org/abs/2304.13712v2](https://arxiv.org/abs/2304.13712v2)")
+    except FileNotFoundError:
+        pass
 
     # Display decision figure
-    st.header("Guides for Choosing the Right NLP Model")
-    st.image("assets/decision.png", use_column_width=True)
+    try:
+        st.header("Guides for Choosing the Right NLP Model")
+        st.image("assets/decision.png", use_column_width=True)
+    except FileNotFoundError:
+        pass
 
     # Display transformer animation 
-    st.header("Unmasking Transformers: A Visual Guide to NLP’s Powerhouse")
-    st.image("assets/transformer.gif", use_column_width=True)
+    try:
+        st.header("Unmasking Transformers: A Visual Guide to NLP’s Powerhouse")
+        st.image("assets/transformer.gif", use_column_width=True)
+    except FileNotFoundError:
+        pass
+    # st.header("Unmasking Transformers: A Visual Guide to NLP’s Powerhouse")
+    # st.image("assets/transformer.gif", use_column_width=True)
 
     # Get the list of subpages from the 'pages' folder
     # subpages = [f[:-3] for f in os.listdir("pages") if f.endswith(".py")]

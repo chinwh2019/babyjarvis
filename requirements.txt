@@ -4,6 +4,7 @@ openai-whisper
 openai    
 langchain
 transformers
+llama-index
 
 # Backend
 # --------------------

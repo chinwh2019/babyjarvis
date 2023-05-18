@@ -1,4 +1,4 @@
-# Streamlit UI for OpenAI's Whisper, GPT, chatGPT, babyagi and more
+# Streamlit UI with openAI and OSS models for Transcription and Database, Personallized Chatbot, Document Query and Summarization, BabyAGI and more
 
 This is a simple [Streamlit UI](https://streamlit.io/) for:
 
@@ -9,6 +9,8 @@ This is a simple [Streamlit UI](https://streamlit.io/) for:
 * [babyagi](https://github.com/yoheinakajima/babyagi). It let's you create, prioritize, and execute tasks using the babyagi task management system.
 
 * Prompt Engineering. It contains essential prompt tactics from Andrew Ng's OpenAI course for communicating with GPT-3.5.
+
+* Document Query and Summarization. It let's you query and summarize documents using the GPT-3.5 or 4 or OSS models.
 
 ## Setup
 
