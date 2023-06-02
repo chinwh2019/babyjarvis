@@ -11,9 +11,13 @@ from dotenv import load_dotenv, find_dotenv
 from datetime import datetime, timedelta
 import math
 import faiss
+from utils import get_api_key_from_config
 
-_ = load_dotenv(find_dotenv())
-openai.api_key = os.getenv("OPENAI_API_KEY")
+class OpenAICompletion:
+    def __init__(self, api_key, model="gpt-3.5-turbo"):
+        self.api_key = api_key
+        self.model = model
+        openai.api_key = api_key
 
 observations = [
     "Tommie wakes up to the sound of a noisy construction site outside his window.",
@@ -46,6 +50,12 @@ observations = [
     "Tommie feels slightly better after talking to his friend.",
 ]
 
+
+def display_response(response):
+    st.write('Response:')
+    st.markdown(f"<div style='background-color: #F0FFF0; border: 1px solid #98FB98; padding: 10px;'><span style='color: #1E90FF;'>{response}</span></div>", unsafe_allow_html=True)
+
+
 def relevance_score_fn(score: float) -> float:
     """Return a similarity score on a scale [0, 1]."""
     # This will differ depending on a few things:
@@ -57,64 +67,94 @@ def relevance_score_fn(score: float) -> float:
     return 1.0 - score / math.sqrt(2)
 
 def create_new_memory_retriever():
-        embeddings_model = OpenAIEmbeddings()
+        embeddings_model = OpenAIEmbeddings(openai_api_key=openai.api_key, model="gpt-3.5-turbo")
         embedding_size = 1536
         index = faiss.IndexFlatL2(embedding_size)
         vectorstore = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {}, relevance_score_fn=relevance_score_fn)
         return TimeWeightedVectorStoreRetriever(vectorstore=vectorstore, other_score_keys=["importance"], k=15)    
 
-def main():
-    st.title("Simulation Agent")
+class OpenAIApp:
+    def __init__(self):
+        self.completion_api = None
 
-    try:
-        st.image("assets/simulation.png", use_column_width=True)
-        st.caption("Credit to [https://arxiv.org/abs/2304.03442](https://arxiv.org/abs/2304.03442)")
-    except FileNotFoundError:
-        pass
+    def get_openai_api_key(self):
+        if "api_key" not in st.session_state:
+            api_key_from_config = get_api_key_from_config()
+            if api_key_from_config:
+                st.session_state.api_key = api_key_from_config
+            else:
+                st.session_state.api_key = ""
+        
+        return st.sidebar.text_input(
+            "Enter your OpenAI API key:",
+            value=st.session_state.api_key,
+            placeholder="Your OpenAI API Key",
+            type="password",
+        )
 
-    try:
-        st.image("assets/memory.png", use_column_width=True)
-        # st.caption("Credit to [https://arxiv.org/abs/2304.03442](https://arxiv.org/abs/2304.03442)")
-    except FileNotFoundError:
-        pass
+    def main(self):
+        st.title("Simulation Agent")
 
-    USER_NAME = st.text_input("Enter your name", "Jayden Chin")
-    LLM = ChatOpenAI(max_tokens=1500)
+        open_api_key = self.get_openai_api_key()
 
-    
+        if open_api_key:
+            self.completion_api = OpenAICompletion(open_api_key)
+        
+        else:
+            st.error("Please enter your OpenAI API key in the sidebar.")
 
-    tommies_memory = GenerativeAgentMemory(
-        llm=LLM,
-        memory_retriever=create_new_memory_retriever(),
-        verbose=False,
-        reflection_threshold=8 
-    )
+        try:
+            st.image("assets/simulation.png", use_column_width=True)
+            st.caption("Credit to [https://arxiv.org/abs/2304.03442](https://arxiv.org/abs/2304.03442)")
+        except FileNotFoundError:
+            pass
 
-    tommie = GenerativeAgent(name="Tommie", 
-                  age=25,
-                  traits="anxious, likes design, talkative",
-                  status="looking for a job",
-                  memory_retriever=create_new_memory_retriever(),
-                  llm=LLM,
-                  memory=tommies_memory
-                 )
+        try:
+            st.image("assets/memory.png", use_column_width=True)
+            # st.caption("Credit to [https://arxiv.org/abs/2304.03442](https://arxiv.org/abs/2304.03442)")
+        except FileNotFoundError:
+            pass
 
-    input_text = st.text_input("Ask Tommie a question:")
-    if st.button('Submit'):
-        new_message = f"{USER_NAME} says {input_text}"
-        with st.spinner('Waiting agent response...'):
-            response = tommie.generate_dialogue_response(new_message)[1]
-            st.write(response)
-    st.write("---")
+        USER_NAME = st.text_input("Enter your name", "Jayden Chin")
+        LLM = ChatOpenAI(max_tokens=1500, openai_api_key=open_api_key)
 
-    # observation_text = st.text_input("Add an observation for Tommie:")
-    observation_text = st.selectbox("Choose an observation for Tommie:", observations)
-    st.write(observation_text)
-    st.write("---")
-    if st.button('Add Observation'):
-        with st.spinner('Observation added, waiting agent response...'):
-            _, reaction = tommie.generate_reaction(observation_text)
-            st.write(f"Tommie's reaction: {reaction}")
+        
 
+        tommies_memory = GenerativeAgentMemory(
+            llm=LLM,
+            memory_retriever=create_new_memory_retriever(),
+            verbose=False,
+            reflection_threshold=8 
+        )
+
+        tommie = GenerativeAgent(name="Tommie", 
+                    age=25,
+                    traits="anxious, likes design, talkative",
+                    status="looking for a job",
+                    memory_retriever=create_new_memory_retriever(),
+                    llm=LLM,
+                    memory=tommies_memory
+                    )
+
+        input_text = st.text_input("Ask Tommie a question:")
+        if st.button('Submit'):
+            new_message = f"{USER_NAME} says {input_text}"
+            with st.spinner('Waiting agent response...'):
+                response = tommie.generate_dialogue_response(new_message)[1]
+                display_response(response)
+        
+        st.write("---")
+
+        # observation_text = st.text_input("Add an observation for Tommie:")
+        observation_text = st.selectbox("Choose an observation for Tommie:", observations)
+        st.write(observation_text)
+
+        if st.button('Add Observation'):
+            with st.spinner('Observation added, waiting agent response...'):
+                _, reaction = tommie.generate_reaction(observation_text)
+                display_response(reaction)
+                
+                
 if __name__ == "__main__":
-    main()
+    app = OpenAIApp()
+    app.main()
