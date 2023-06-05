@@ -17,3 +17,13 @@ def get_api_key_from_config():
     if "openai" in config and "api_key" in config["openai"]:
         return config["openai"]["api_key"]
     return None
+
+
+def load_text_file(filename):
+    try:
+        with open(filename, "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+    except:
+        print(f"Error: Could not read file '{filename}'.")
