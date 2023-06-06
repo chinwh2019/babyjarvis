@@ -2,18 +2,6 @@ import streamlit as st
 import openai
 from utils import * 
 
-"""
-Assuming the role of a pediatric nutritionist and a skillful cook.
-generate a breakfast recipe that caters to the preferences and dietary needs of a 3-4 years old child. 
-The child prefers chicken and is allergic to dairy products. 
-The recipe should be void of any religious or cultural food restrictions and should be adaptable to any cuisine, whether Asian, Western, or others. The cooking method can be varied, including but not limited to baking, grilling, or steaming. Emphasize the inclusion of key nutrients, such as proteins, vitamins, and fiber, and ensure the recipe is easy to prepare, time-efficient, and suitable for a busy morning routine. In addition to being tasty, make sure the meal is visually appealing and incorporates elements of fun or education to engage the child. The final dish could be creatively named to further attract the child's interest. Provide the recipe in the following format:
-
-Food name
-Ingredients
-Instructions
-Nutritional benefits
-Cautions
-"""
 class OpenAICompletion:
     def __init__(self, api_key, model="gpt-3.5-turbo"):
         self.api_key = api_key
@@ -45,6 +33,12 @@ class System:
             {"role": "user", "content": f"{delimiter} {user_message} {delimiter}"},
         ]
     
+    def save_first_words(self, response):
+        words = response.split()  # split the response into a list of words
+        extracted_words = words[:7]  # select the first 50 words
+        new_response = ' '.join(extracted_words)  # join the first 50 words back into a string
+        return new_response
+
     def render(self, completion_api, temperature, max_tokens):
         # with st.expander(self.label):
             # delimiter = st.text_input("Enter the delimiter symbol", self.delimiter)
@@ -59,7 +53,16 @@ class System:
                 response = completion_api.get_completion_from_messages(messages, temperature=temperature, max_tokens=max_tokens)
                 st.write('Response:')
                 st.success(response)
-                # st.markdown(f"<div style='background-color: #F0FFF0; border: 1px solid #98FB98; padding: 10px;'><span style='color: #1E90FF;'>{response}</span></div>", unsafe_allow_html=True)
+                short_response = self.save_first_words(response)
+            with st.spinner("Generating food image:"):
+                print(short_response)
+                response = openai.Image.create(
+                prompt="Reality magazine "+"food photography: "+ f"{short_response}",
+                n=1,
+                size="512x512"
+                )
+                image_url = response['data'][0]['url']
+                st.image(image_url, width = 512)
 
 
 class OpenAIApp:
@@ -84,13 +87,30 @@ class OpenAIApp:
     def main(self):
         st.title("Kid Food Generator")
         st.write("---")        
-        description = """
-        This is a AI food generator for kids. 
-        Use as your own risk. 
-        """
-        st.markdown(description, unsafe_allow_html=True)
-        st.write("---")
+        # description = """
+        # The Kid Food Generator is an AI-powered tool that creates personalized, nutritious recipes based on a child's specific information like age, allergies, and preferences. 
+        # Utilizing advanced algorithms and feedback learning, it tailors meal plans that promote healthy eating habits and joy of food from a young age. 
+        # Please note, the generated recipes are for reference only, use them at your own discretion, and always consult with a healthcare provider for dietary advice.
+        # """
+        # st.markdown(description, unsafe_allow_html=True)
 
+        # Displaying Sub-header
+        st.subheader('Personalized Nutrition for Kids')
+
+        # Displaying the Information
+        st.markdown('The Kid Food Generator is a cutting-edge tool that leverages AI technology to:')
+        st.write('- Craft **customized** recipes based on a child\'s unique data (age, allergies, preferences)')
+        st.write('- Facilitate **healthy eating habits**')
+        st.write('- Promote the **joy of food** from a young age')
+
+        # Displaying the working mechanism
+        st.subheader('How does it work?')
+        st.markdown('The Kid Food Generator uses advanced algorithms and feedback learning mechanisms to tailor meal plans that both satisfy taste buds and provide nutritional balance.')
+
+        # Displaying the disclaimer
+        st.info('Disclaimer: The generated recipes are for reference only. Always use them at your own discretion and consult with a healthcare provider for dietary advice.')
+        st.write("---")
+        
         open_api_key = self.get_openai_api_key()
 
         if open_api_key:
@@ -103,26 +123,27 @@ class OpenAIApp:
         max_tokens = st.sidebar.slider("Max Tokens", min_value=10, max_value=3000, step=1, value=1000)
         
         # define system messages and predefined inputs 
-        system_messages = load_text_file("assets/food_generator_system_message2.txt")
-        child_age = st.text_input("Enter the child age:")
-        child_preference = st.text_input("Enter the child preference:", value="Any")
-        child_allergy = st.text_input("Enter the child allergy:", value=None)
-        regional_cuisine = st.text_input("Enter the regional cuisine:", "Any")
-        request = st.text_input("Enter the special request:", value=None)
+        system_messages = load_text_file("assets/food_generator_system_message3.txt")
+        child_age = st.slider("Enter the child age:", 1, 99, 1)
+        child_preference = st.text_input("Enter the child preference:", value="Any", max_chars=100)
+        child_allergy = st.text_input("Enter the child allergy:", value=None, max_chars=100)
+        regional_cuisine = st.text_input("Enter the regional cuisine:", "Any", max_chars=50)
+        regional_cuisine = st.multiselect("Enter the regional cuisine:", options=["American", "Chinese", "French", "Indian", "Italian", "Japanese", "Korean", "Mexican", "Middle Eastern", "Thai", "Vietnamese", "Indonesia", "Malaysia"], default=["American", "Japanese"])
+        request = st.text_input("Enter the special request:", value=None, max_chars=100)
         meal_type = st.selectbox("Enter the meal type:", options=["breakfast", "lunch", "dinner", "snack"])
         
         predefined_input = f"""
-        child age:{child_age}years old, 
-        preference:{child_preference}, 
-        allergy:{child_allergy}, 
-        food region:{regional_cuisine}, 
-        special request:{request},
-        meal:{meal_type}"""
+        The child age is {child_age} years old, 
+        their preferences are {child_preference}, 
+        and allergy is {child_allergy}, 
+        The food recipe preference region is {regional_cuisine}, 
+        Parent special request is {request},
+        The recipe of the meal is for {meal_type}"""
         print(predefined_input)
         
         child_generator = System("Child Food Generator", system_messages, predefined_input)
         child_generator.render(self.completion_api, temperature, max_tokens)
-
+        
 
 if __name__ == "__main__":
     app = OpenAIApp()
