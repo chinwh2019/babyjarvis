@@ -165,7 +165,9 @@ class OpenAIApp:
         3. **Evaluation System 2:** :chart_with_upwards_trend: Another system that introduces more complex interactions with additional steps.
 
         4. **Chain of Thought System:** :link: A system facilitates the interaction with the GPT-3.5 Turbo model by presenting a **multi-step** instruction for the model to answer customer queries about specific products.
-
+        
+        5. **Chain Prompt System:** :link: This system uses the `chain_prompt` parameter to allow the model to remember the previous instructions and continue the conversation. 
+        
         These systems bring **flexibility** and **variety** to your OpenAI model interactions. Enjoy experimenting with them! :tada:
         """
         st.markdown(description, unsafe_allow_html=True)
@@ -210,11 +212,16 @@ class OpenAIApp:
         predefined_input_cot = "by how much is the BlueWave Chromebook more expensive than the TechPro Desktop"
         cot_code_snippet = load_text_file("assets/chain_code.txt")
 
+        chainPrompt_system_message = load_text_file("assets/chainprompt_system_message.txt")
+        predefined_input_chain = "tell me about he smartx pro phone and the fotosnap camera, the dslr one. Also tell me about your tvs"
+        chainPrompt_code_snippet = load_text_file("assets/chainprompt_code.txt")
+
         systems = [
             System('Classification System', classification_system_message, predefined_input_classification, classification_code_snippet),
             CustomStringSystem('Evaluation System', evaluation_system_message, predefined_input_evaluation, evaluation_code_snippet),
             EvaluationSystem2('Evaluation System 2', evaluation_system_2_message, predefined_input_evaluation_2, evaluation_code_snippet2),
             ChainOfThoughtSystem('Chain of Thought System', cot_system_message, predefined_input_cot, cot_code_snippet),
+            System('Chain Prompt System', chainPrompt_system_message, predefined_input_chain, chainPrompt_code_snippet),
             # add more systems here...
         ]
 

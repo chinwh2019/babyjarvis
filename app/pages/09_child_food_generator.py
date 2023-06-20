@@ -35,7 +35,7 @@ class System:
     
     def save_first_words(self, response):
         words = response.split()  # split the response into a list of words
-        extracted_words = words[:7]  # select the first 50 words
+        extracted_words = words[:8]  # select the first 50 words
         new_response = ' '.join(extracted_words)  # join the first 50 words back into a string
         return new_response
 
@@ -127,7 +127,7 @@ class OpenAIApp:
         child_age = st.slider("Enter the child age:", 1, 99, 1)
         child_preference = st.text_input("Enter the child preference:", value="Any", max_chars=100)
         child_allergy = st.text_input("Enter the child allergy:", value=None, max_chars=100)
-        regional_cuisine = st.text_input("Enter the regional cuisine:", "Any", max_chars=50)
+        # regional_cuisine = st.text_input("Enter the regional cuisine:", "Any", max_chars=50)
         regional_cuisine = st.multiselect("Enter the regional cuisine:", options=["American", "Chinese", "French", "Indian", "Italian", "Japanese", "Korean", "Mexican", "Middle Eastern", "Thai", "Vietnamese", "Indonesia", "Malaysia"], default=["American", "Japanese"])
         request = st.text_input("Enter the special request:", value=None, max_chars=100)
         meal_type = st.selectbox("Enter the meal type:", options=["breakfast", "lunch", "dinner", "snack"])
