@@ -9,6 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 import umap.umap_ as umap
 import openai
 import torch 
+import time 
 from transformers import AutoTokenizer, RobertaForSequenceClassification
 
 
@@ -49,10 +50,11 @@ class ModelManager:
         return model
 
 class AdvancedMemoryManager:
-    def __init__(self, learning_rate=0.5, similarity_threshold=0.8):
-        self.nodes = [] 
+    def __init__(self, learning_rate=0.5, similarity_threshold=0.8, decay_rate=0.1):
+        self.nodes = []
         self.learning_rate = learning_rate
         self.similarity_threshold = similarity_threshold
+        self.decay_rate = decay_rate
 
     def add_to_memory(self, feature_vector, message):
         similar_node = self.find_similar_node(feature_vector)
@@ -81,9 +83,20 @@ class AdvancedMemoryManager:
         if len(node['messages']) >= 5:
             node['messages'].pop(0)
         node['messages'].append({"role": "user", "content": message})
+        node['update_time'] = time.time()  # Add a timestamp for when the node was last updated
 
     def create_new_node(self, feature_vector, message):
-        self.nodes.append({'feature_vector': feature_vector, 'messages': [{"role": "user", "content": message}]})
+        self.nodes.append({'feature_vector': feature_vector, 
+                           'messages': [{"role": "user", "content": message}],
+                           'update_time': time.time()})  # Add a timestamp for when the node was created
+        
+    def decay_memory(self):
+        # Apply a decay to all node feature vectors based on their last update time
+        current_time = time.time()
+        for node in self.nodes:
+            time_diff = current_time - node['update_time']
+            decay_factor = np.exp(-self.decay_rate * time_diff)
+            node['feature_vector'] *= decay_factor    
 
 class ChatBot:
     def __init__(self, memory_manager, model_manager, emotion_detector):
