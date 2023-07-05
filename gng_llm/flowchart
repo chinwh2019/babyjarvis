@@ -1,0 +1,28 @@
+digraph flowchart {
+	graph [bgcolor=white rankdir=TB size="8,5"]
+	ED [label=EmotionDetector shape=box]
+	MM [label=ModelManager shape=box]
+	AMM [label=AdvancedMemoryManager shape=box]
+	CB [label=ChatBot shape=box]
+	FM [label=FeedbackManager shape=box]
+	GE [label="get_emotion()" shape=ellipse]
+	CMM [label="chat_with_gpt()" shape=ellipse]
+	ATM [label="add_to_memory()" shape=ellipse]
+	GS [label="generate_system_message()" shape=ellipse]
+	GM [label="generate_messages()" shape=ellipse]
+	GR [label="generate_responses()" shape=ellipse]
+	GER [label="_generate_response()" shape=ellipse]
+		ED -> GE
+		MM -> CB [label="model
+embeddings"]
+		AMM -> ATM
+		CB -> CMM
+		CB -> GS
+		CB -> GM
+		FM -> GR
+		GR -> GER
+		AMM -> CB [label="memory
+management"]
+		CB -> FM [label="feedback
+management"]
+}
