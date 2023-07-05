@@ -193,9 +193,16 @@ if __name__ == "__main__":
     feedback_manager = FeedbackManager(emotion_detector)
 
     diary_entries = [
-        "I used to love gardening but I stopped because I'm afraid of falling.",
-        "I watched a gardening show today and felt good.",
-        "I wish I could garden again but don't know where to start."
+        "I found my old set of watercolors. I used to enjoy painting but now I struggle to see the colors clearly.",
+        "My granddaughter wants me to teach her knitting. I'm worried my skills have gotten rusty.",
+        "I read about a baking class in the local newspaper. I haven't baked in a long time.",
+        "I watched a documentary about beekeeping. It seems fascinating but potentially challenging.",
+        "My old rollerblades are still in the closet. I miss the freedom of gliding down the streets.",
+        "I'd love to plant trees for the local green project, but I'm concerned about the physical work.",
+        "I've always wanted to learn how to weave. Maybe it's time to give it a try."
+        #"I used to love gardening but I stopped because I'm afraid of falling.",
+        #"I watched a gardening show today and felt good.",
+        #"I wish I could garden again but don't know where to start."
         #"I've always wanted to write a novel, but I feel like I'm not creative enough.",
         #"I wish I could lose weight but I struggle to stick to a diet.",
         #"I'd like to learn to play the guitar, but it seems so difficult.",
