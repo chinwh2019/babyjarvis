@@ -1,4 +1,6 @@
+# Import necessary modules
 import streamlit as st
+import random
 
 # Create a dictionary to collect responses
 responses = {}
@@ -34,14 +36,26 @@ questions = [
 
 # Loop through the questions to display them and collect responses
 for i, question in enumerate(questions):
-    responses[question] = st.slider(question, 1, 5)
+    responses[i+1] = st.slider(question, 1, 5, value=3)
+
+# Function to calculate SUS Score
+def calculate_sus_score(responses):
+    score = 0
+    for i, response in responses.items():
+        if i % 2 == 0:
+            score += 5 - response
+        else:
+            score += response - 1
+    return score * 2.5
 
 # Submit button to finalize and display the responses
 if st.button("Submit"):
+    sus_score = calculate_sus_score(responses)
     st.title("Your Responses:")
     with open(f'responses_{age}_{gender}_{test_type}.txt', 'w') as file:
-        file.write(f"Age: {age}\nGender: {gender}\n")
-        for question, response in responses.items():
-            file.write(f"{question}: {response}\n")
-            st.write(f"{question}: {response}")
+        file.write(f"Age: {age}\nGender: {gender}\nTest Type: {test_type}\nSUS Score: {sus_score}\n")
+        for i, response in responses.items():
+            file.write(f"Question {i}: {response}\n")
+            st.write(f"Question {i}: {response}")
+    st.write(f"Your SUS Score: {sus_score}")
     st.write("Your responses have been saved.")
