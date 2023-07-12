@@ -7,8 +7,8 @@ import pandas as pd
 from utils import get_api_key_from_config
 
 # Constants
-MODEL_NAMES = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k-0613"]
-DEFAULT_MODEL = "gpt-3.5-turbo-16k-0613"
+MODEL_NAMES = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4"]
+DEFAULT_MODEL = "gpt-3.5-turbo-16k"
 MAX_TOKENS = 15000
 APP_TITLE = "🤖 Personal A.I. Assistant"
 DEFAULT_CSV = 'assets/EnglishPrompts.csv'
@@ -112,13 +112,13 @@ def main():
     model = st.sidebar.selectbox("Select the model", options=MODEL_NAMES, index=MODEL_NAMES.index(DEFAULT_MODEL))
 
     # Temperature
-    temperature = st.sidebar.slider("Temperature", min_value=0.0, max_value=2.0, value=1.0, step=0.1, help="Controls the randomness of the AI's output.")
+    temperature = st.sidebar.slider("Temperature", min_value=0.0, max_value=2.0, value=0.0, step=0.1, help="Controls the randomness of the AI's output.")
 
     # Top P
-    top_p = st.sidebar.slider("Top P", min_value=0.0, max_value=1.0, value=1.0, step=0.1, help="Nucleus sampling: the model will choose from a subset of tokens whose cumulative probability exceeds this value.")
+    top_p = st.sidebar.slider("Top P", min_value=0.0, max_value=1.0, value=0.0, step=0.1, help="Nucleus sampling: the model will choose from a subset of tokens whose cumulative probability exceeds this value.")
 
     # Max Tokens
-    max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=4096, value=MAX_TOKENS, step=100, help="The maximum length of the model's output.")
+    max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=MAX_TOKENS, value=5000, step=100, help="The maximum length of the model's output.")
 
     display_conversation(st.session_state.get("prompts", []), st.session_state.get("contents", []))
 
